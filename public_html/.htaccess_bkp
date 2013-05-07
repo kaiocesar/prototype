@@ -1,0 +1,42 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+#RewriteRule ^.*$ index.php [NC,L]
+
+
+# controller/action/param do module/default
+#RewriteRule ^admin/(.+)\/(.+)\/([0-9]+)$ index.php?module=admin&controller=$1&action=$2&params=$3
+RewriteRule ^admin/(.+)\/(.+)\/p-(.+)$ index.php?module=admin&controller=$1&action=$2&params=$3
+
+# controller/action/param do module/default
+RewriteRule ^admin/(.+)\/(.+).php$ index.php?module=admin&controller=$1&action=$2
+
+# controller/action/param do module/default
+RewriteRule ^admin/(.+)$ index.php?module=admin&controller=$1
+
+# controller/action/param do module/default
+
+# controller/action/param do module/default
+RewriteRule ^admin$ index.php?module=admin
+
+RewriteRule ^admin\/(.+)$ index.php?module=admin&controller=$1
+
+# controller/action/param do module/default
+RewriteRule ^(.+)\/(.+)\/([0-9]+)$ index.php?controller=$1&action=$2&param=$3
+
+# controller/action do module/default
+RewriteRule ^(.+)\/(.+).html$ index.php?controller=$1&action=$2
+
+RewriteRule ^(.+).htm$ index.php?controller=$1
+
+RewriteRule ^(.+)\/$ index.php?controller=$1
+
+RewriteRule ^(.+).html$ index.php?controller=index&action=$1
+
+#RewriteRule ^(.+)\/$ index.php?controller=$1&action=$2
+
+
+#RewriteRule ^buscar/(.+) procurar.php?palavras=$1
+#([0-9]*)

@@ -1,0 +1,95 @@
+<?php
+/**
+ * Class Rendirize
+ * @package app/library
+ * @author Kaio Cesar <tecnico.kaio@gmail.com>
+ * @version 1.0
+ */
+
+class library_renderize extends library_utils{
+    
+    private static $instance;
+
+    private function __construct() {}
+
+    public static function singleton() {
+        if (!isset(self::$instance)) {
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
+        return self::$instance;
+    }
+
+
+/**
+* Mounting the running application
+*/
+    public static function run() {
+        $GET = $_GET;
+        global $ROUTES;
+        global $content_layout;
+
+        /**
+         * Motangem das variaveis(modulo, controle, visão)
+         */
+        $module  = (isset($GET['module'])) ? $GET['module'] : "default";
+        $controller = (isset($GET['controller'])) ? $GET['controller'] : "index";
+        $action = (isset($GET['action'])) ? $GET['action'] : "index";
+
+        /**
+         * Autenticação para área de Administrativa
+         */
+        // if ($module=="admin" || $controller=="admin") {
+        //     include(APP_PATH. "library/auth/Auth.php");
+
+        //     $Auth = new Auth();
+
+        //     if (!$Auth->_checkSession()) {
+        //         $Auth->_connect();
+        //         $Auth->forceLogin();
+        //     }
+        // }                      
+        
+        /**
+         * Conteudo da view
+         */
+        $file_view  = $ROUTES[$module]['path']."views/". $controller ."/". $action .".php";
+        $view_exists = false;
+        
+        if (file_exists($file_view)) { 
+            $content_layout = $file_view;
+            $view_exists = true;
+        } else {
+            $content_layout = $ROUTES[$module]['404'];
+        }
+    
+        /**
+         * Include da função referente a view
+         */
+        if ($view_exists) {
+            $ctrl = $module ."_controllers_". ucfirst($controller) . "Controller";
+        //  Creates the object with singleton pattern. Passing the name of the controller class daughter
+            $objController = $ctrl::singleton($ctrl); 
+        // Copy object    
+            $render = $objController; 
+
+            $action = self::NormalizeAction($action);
+        // Required that all controllers have an index action    
+            $objController->$action(); 
+
+        }
+        
+        /**
+         * Include do layout default referente ao modulo
+         */
+        include($ROUTES[$module]['layout_path']."default.php");
+
+        
+    }
+
+
+    public function IncludeFile($file=null) {
+        return "ok";
+    }
+
+}
