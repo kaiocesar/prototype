@@ -89,7 +89,7 @@ class library_filterUrl extends library_utils {
         self::$routes['params'] = $param_url;
 
 
-        // self::CheckRoutes(self::$routes,$url_clean,$is_module);
+        self::CheckRoutes(self::$routes,$param,$is_module);
 
     }
 

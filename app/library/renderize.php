@@ -34,7 +34,7 @@ class library_renderize extends library_filterUrl{
 
         // 2 - checar a existencia dos arquivos de acordo com as rotas
         $classController = self::$routes['module'] ."_controllers_". self::$routes['controller'];
-
+        
         $objController =  $classController::singleton($classController); // singleton
 
         $action = self::$routes['action'];
