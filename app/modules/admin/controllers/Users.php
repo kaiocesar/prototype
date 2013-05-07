@@ -7,7 +7,7 @@
  class admin_controllers_users extends library_Controller {
 
 	public function Home() {
-		return self::Make('index.home');
+		return self::Make('users.home');
 	}
 
 
