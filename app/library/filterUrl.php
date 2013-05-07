@@ -15,6 +15,13 @@ class library_filterUrl extends library_utils {
         'controller' => 'Index',
         'action' => 'Index'
     );
+
+    protected static $keys = array(
+        'module',
+        'controller',
+        'action',
+        'params'
+    );
     
 	/**
 	 * @var array $modules
@@ -27,6 +34,11 @@ class library_filterUrl extends library_utils {
     protected static $params = null;
 
 
+    public static function SetKeysArray(){
+
+    }
+
+
     /**
      *  MapUl - Mapeia a url dividindo modules, controllers, actions e params
      *  @param array $param
@@ -34,23 +46,50 @@ class library_filterUrl extends library_utils {
      */
 	public static function MapUrl($param=null) {
 
-        // identificação do modulo
-        $if_mod = false;
-        $is_module = (array_search($param[1],self::$modules)===false) ? false : true; // nem adianta usar cast
-        self::$routes['module'] = ($is_module) ?  $param[1] : "default";
+        // Não existe Rota ? então ele retornará as defaults
+        if ((empty($param)) || (! is_array($param)) ) { return; }
 
-        // acertar as keys do array
-        $url_clean = ($is_module) ? array_slice($param,1) : $param;
-        $url_clean =  array_slice($url_clean, 0);
+        $rota = self::$routes;
 
-        (! $is_module) ? self::$routes['controller'] = ucfirst($url_clean[0]) : "";
-        self::$routes['action'] = (isset($url_clean[1])) ? self::CamelCase($url_clean[1]) : self::$routes['action'];
-        $param_url = array_slice($url_clean, 2); // divido controller+view de parametros
+        // module exists
+        $is_module = (array_search($param[0],self::$modules)===false) ? false : true; // nem adianta usar cast
+
+        $is = ($is_module) ? 1 : 0;
+        
+        $module = ($is_module) ? $param[0] : null;  // module
+
+        if (($is_module && isset($param[1])))   // controller
+            $controller = ucfirst($param[1]);
+        else if(! $is_module && isset($param[0]))
+            $controller = ucfirst($param[0]);
+        else 
+            $controller = null;
+        
+        
+        if (($is_module && isset($param[2]))) // action
+            $action = ucfirst($param[2]);
+        else if (!$is_module && isset($param[0]) && isset($param[1]))
+            $action = ucfirst($param[1]);
+        else
+            $action = null;
+
+        
+        (! is_null($module)) ? $rota['module'] = $module : "";
+        (! is_null($controller)) ? $rota['controller'] = $controller : "";
+        (! is_null($action)) ? $rota['action'] = $action : "";
+        
+
+        self::$routes = array_merge(self::$routes, $rota);
+
+        $begin_cut_params = ($is_module) ? 3 : 2;
+
+        $param_url = array_slice($param, $begin_cut_params); // divido controller+view de parametros    
         $param_url = array_chunk($param_url, 2); // divido key + chave para formar um array de parametros
         $param_url = array_map(array('library_renderize', 'Treat_Params'),$param_url);
         self::$routes['params'] = $param_url;
 
-        self::CheckRoutes(self::$routes,$url_clean,$is_module);
+
+        // self::CheckRoutes(self::$routes,$url_clean,$is_module);
 
     }
 

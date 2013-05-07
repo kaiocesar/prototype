@@ -27,11 +27,10 @@ class library_renderize extends library_filterUrl{
      */
     public static function Run() {
         // 1 - definimos modules, controllers, actions e params
-        if (isset($_SERVER['REDIRECT_URL'])) {
-            $redirect_url = explode("/", $_SERVER['REDIRECT_URL']);
-            $redirect_url = array_filter($redirect_url, array('library_renderize', 'CleanEmpytArray'));
-            self::MapUrl($redirect_url);
-        }
+        // PHP é lindo *-*   
+        @ $redirect_url = preg_split('[\\/]', $_SERVER['REDIRECT_URL'], -1, PREG_SPLIT_NO_EMPTY);
+        
+        self::MapUrl($redirect_url);
 
         // 2 - checar a existencia dos arquivos de acordo com as rotas
         $classController = self::$routes['module'] ."_controllers_". self::$routes['controller'];
