@@ -1,4 +1,4 @@
-Anonymous Framework for PHP
+Anonymous Framework for PHP :)
 ===============================
 
 This is a prototype of framework, below the list of resources that will be deployed to the project:
