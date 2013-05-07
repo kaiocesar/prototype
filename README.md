@@ -6,7 +6,7 @@ This is a prototype of framework, below the list of resources that will be deplo
 
 ### Requires #####
 *	PHP 5.3 or newer
-
+*	Run virtual hosts apache
 
 
 
