@@ -1,3 +1,5 @@
 {
-    "require": {}
+    "require": {
+         "prototype/prototype": "1.0.*@dev"
+    }
 }
