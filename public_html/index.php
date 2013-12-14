@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Kaio Cesar <tecnico.kaio@gmail.com>
- * @package MKF
+ * @package Prototype
  * @version 1.0
  */
 

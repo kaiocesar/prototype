@@ -1,0 +1,290 @@
+1.6
+- Inicio de suporte a annotations
+- Inclusao da classe Lumine_Metadata
+- Metodo setFrom alterado para populateFrom
+- Metodos getRelations, getField, getFieldByColumn, getFields, getRelation devem ser acessados pelo objeto metadata ($obj->metadata())
+- Nome da tabela e do pacote ficam na classe Metadata
+- Adicionadas as anotacoes para OneToMany, ManyToMany e ManyToOne
+- Ajustes nas nomenclaturas de classes
+- Implementacao de cache
+- Separacao de modelos de geracao de codigo
+- Ajustes em nomenclatura de classes
+- Ajustes no metodo Load
+- getLink alterado para fetchLink
+- Metodos adicionados: addValidator, removeValidator, clearValidator, listValidators
+- Classes de validacao adicionadas:
+	Lumine_Validator_CNPJ
+	Lumine_Validator_CPF
+	Lumine_Validator_Custom
+	Lumine_Validator_Date
+	Lumine_Validator_DateTime
+	Lumine_Validator_Email
+	Lumine_Validator_Number
+	Lumine_Validator_String
+	Lumine_Validator_Unique
+- Suporte a validacao via XML removido. Se for necessario, implementar um validator
+- Suporte a validacao via metodos validate* removido. Se for necessario, implementar um validator
+- Classes removidas:
+	Lumine_Validator_ClassValidator
+	Lumine_Validator_XMLValidator
+	Lumine_Validator_PHPValidator
+- adicionado o dialeto mysqli
+- Alteracao para poder passar os valores por um parser antes de enviar para o Lumine Base
+
+1.5.10
+- Correcao para salvar lista de dados (encontrado por Tiago Hiller)
+- Correcao no where quando se tem "?" no valor do parametro (Encontrado por Eder "Mohamed" Fortunato)
+- Alteracao para poder identificar o schema no describe e na hora de recuperar o ultimo ID (sugestao Tiago Hiller)
+- Alteracao para que ao recuperar o ultimo ID, leve em consideracao o schema. Alterada para que na engenharia reversa o nome da sequencia venha com o schema
+- Correcao na engenharia reversa de Lumine quando se tinha mais de duas chaves estrangeiras para uma outra tabela (encontrado por Eder "Mohamed" Fortunato)
+
+1.5.9
+- Alteracao para poder fazer parse do tipo smallint
+- Alteracao nos metodos toXML, toArray, toObject, toJSON - e os all's - para poder opcionalmente retornar somente os dados do dataselect (sugestao de Nilton Souza)
+- Adicionado a validacao para date time
+- Classe padrao para toObject eh "null" 
+- Possibilidade de usar prepared statement na clausula SELECT
+- Possibilidade de fazer join com expressoes personalizadas (joinExpression)
+- correcao para o postgres quando se utiliza um outro schema, dava problema na engenharia reversa (encontrado por Thiago Marsiglia)
+- Mais de um package para DTO's
+- Criacao dos DTO's por package, inclusive os diretorios
+- Ordenar os nomes das tabelas no PostgreSQL::getTables
+- Armazenar o mapeamento tabela => pacote de DTO escolhido
+- toObject e allToObject procuram os DTO's nos caminhos informados na configuracao "dto_package", que agora e um array
+- Correcao para salvar objetos relacionados quando ha colecoes e uma chave estrangeira entre duas classes (encontrado por Tiago Hiller)
+- correcao no metodo Lumine_Util::FormatTime
+
+1.5.8
+- Verifica se o valor informado como "default" da coluna e uma funcao do banco - sugerencia do Juliano Polito
+- Correcoes pequenas para o MsSQL
+- BugFix: quando uma string vem com o valor zero (0), era passado como string vazia
+- Lumine_Model, possibilidade de alterar como se comportam os filtros (whereFilters) - sugestao Juliano Polito
+- Lumine_Model, possibilidade de adicionar condicoes no find sem intervencao de filtros
+- Alteracao na engenharia reversa para poder procurar em outros locais por add-ons
+- Lumine_Model, possibilidade de adicionar campos no select
+- Possibilidade de alteracao de uma opcao ou propriedade na configuracao em tempo de execucao
+- funcao de camel case centralizada na Lumine_Util
+- alterado para validar CPF, CNPJ e Date na validacao via XML
+- correcao no metodo getLink da model
+- criada classe abstrata de conexao onde os demais tipos de conexao a extendem
+- adicionada a opcao "charset" na configuracao
+- bugfix no metodo remove (encontrado por ramcorreio at yahoo dot com dot br)
+- propagacao de eventos podem ser paradas
+- possibilidade de remover valores de links pela model (removeLinks e remove)
+- Alteracao para identificar o tipo "Numeric" do postgres 
+- Alteracao para o describe do postgre nao trazer campos duplicados
+- Alteracao para executar os codigos de log somente quando o nivel desejado e igual ou maior que nivel setado
+- quando utilizando DTO's, tambem ja cria a pasta completa conforme o caminho do pacote
+- Quanto ha uma chave estrangeira composta, criar um relacionamento para cada campo (PostgreSQL)
+- Metodos para registrar expressoes para atualizacao de campos
+- Lumine_Util::array2xml agora tambem permite que os valores sejam colocados em atributos
+
+1.5.7
+- Na model, um parametro para o find pode ser array, e lumine fara com where in
+- Na model, um parametro para o get pode ser array, e lumine fara com where in
+- Lumine Base implementa a classe Iterator
+- Quando uma nova consulta e efetuada em um mesmo objeto, a consulta anterior e liberada (freed)
+- Quando uma conexao e fechada, os resultados abertos sao liberados (freed)
+- Implementado o metodo fetch_row(int $row)
+- Adiciona contra-barras no tipo da coluna (enum, porque contem aspas simples)
+- Correcao do dialeto para Firebird - Enviado por Paulo Cesar Garcia
+- No momento do update, retirava o alias. Depois de realizar, agora volta o alias que estava antes
+- Bug corrigido: assinatura do metodo setConnection do dialeto do Firebird esta incompativel com a interface
+- Correcao para conexao com o firebird (nao colocar o numero da porta)
+- Correcao para a engenharia reversa usando o form white (fazer group by nos registros somente quando for MySQL)
+- A contagem de linhas do firebird e feita pelos registros no dataset
+- Metodo getLink adicionado (Lumine_Model)
+- Quando o metodo nao existir, nem em plugins, dispara excecao
+- Possivel de fazer join's aninhados utilizando as preferencias quando trabalhando com as Models (sugestao de Nelson Martucci)
+- Criada a classe Lumine_AddOn para possibilitar inclusao de add-ons principalmente na engenharia reversa
+- Quando um parametro nao esta setado nas opcoes, o valor null e setado automaticamente, para evitar warnings. Somente na primeira vez ele e emitido.
+- Alteracoes na tela de engenharia reversa para suportar add-ons
+- As opcoes do tipo de campo enum sao adicionadas ao array de opcoes do campo com o indice option_list
+- Beta: Classes auxiliares para trabalhar com arvore de dados
+- Beta: Dialeto para SQLServer (MsSQL). Testes efetuados com a versao 2008R2
+
+1.5.6
+- Bug Fix - Renomeia na engenharia reversa o nome do mapeamento caso ele esteja duplicado (no DTOTemplate) (encontrado por Juliano Polito)
+- Criado o metodo setFilters dentro da Model para separar a aplicacao dos filtros do metodo de pesquisa (sugestao de Juliano Polito)
+- Adicionado um parametro para array associativo de preferencias para busca no metodo LumineModel::find (sugestao de Juliano Polito)
+- Correcao em alguns comentarios de eventos
+- Nao sobrescrever o arquivo de contexto na engenharia reversa
+- Colocado o comando SQL executado nos eventos POS_INSERT, POS_DELETE e POS_UPDATE
+- Criados os eventos PRE_UPDATE_SQL, POS_UPDATE_SQL, PRE_INSERT_SQL, POS_INSERT_SQL, PRE_DELETE_SQL e POS_DELETE_SQL
+- O metodo de validacao requiredDate tambem verifica se o valor informado eh uma data valida
+- Ao passar um valor NULO para o campo, coloca IS NULL como condicao (Lumine_Model::setFilters)
+- Algumas verificacoes de isset foram alteradas para array_key_exists
+- Remocao do atributo $state
+- Alteracao da propriedade que conta o indice de objetos
+- Alterado o nome do template de Model.php para Model.tpl
+- Alterada a classe de Union
+- Possibilidade de colocar clausulas where iniciando com OR ou AND
+- Possibilidade de registro e chamadas a metodos como plugins
+- Correcao para quando o Union tem somente um objeto para executar a consulta
+- Correcao para pegar o novo ID de insercao do mysql (ele permite que seja inserido o valor zero em uma chave autoincrement, retornando o novo valor)
+- Correcao no setFrom quando for um objeto
+- Alterado no construtor para aceitar objetos e array
+
+1.5.5
+- se o usuario informou um tamanho minimo, mas nao o maximo, o maximo passa a ser o do campo (Lumine_Validator_PHPValidator::addValidation::requiredString)
+- adicionado evento para antes e depois de efetuar um fetch (Lumine_IteratorEvent)
+- complemento de enumeracao de validadores (Lumine_Validator)
+- no modelo da engenharia reversa, as aspas duplas dos campos foram substituidos por aspas simples
+- nos metodos save, update e insert, quando o valor do campo eh maior que o seu comprimento, o valor eh truncado
+- criado o metodo _initialize para models
+- Alterado para que no setFrom ele tambem atribua valores aos campos de relacionamentos estrangeiros (_foreign)
+- Bug corrigido: quando havia varios niveis de lazy, so estava trazendo o primeiro nivel (encontrado por Esdras Eduardo)
+- Bug corrigido: no form White, quando se vinculava um M-N em um novo registro dava problema de integridade referencial
+- Util alterado para utilizar preg_match ao inves de ereg para checar email
+
+1.5.4
+- se o mapeamento tiver a opcao "displayField", este campo sera usado para poder exibir o campo correspondente na classe que esta sendo unida no formulario "White"
+- opcao para poder marcar um campo como nulo no novo modelo de formulario de controle basico
+- novo modelo de formularios (White) ficou como padrao da engenharia reversa
+- novo modelo de formularios para engenharia reversa (White)
+- Metodo de analise de clausulas where, para prepared statements, aperfeicoada
+- Alterado no dialeto do mysql para que mude de timestamp para datetime no mapeamento quando gerando pelo engenharia reversa
+- Adicionada a opcao de formatar o nome da classe com sprintf, assim pode-se colocar prefixo/sufixo
+
+1.5.3
+- correcao no metodo Lumine::factory - para poder adicionar os itens default e sequence quando existirem
+- correcao na engenharia reversa do postgres - nao duplicar registros na consulta
+- correcao para poder pegar o valor do campo quando for inserir e o valor nao foi definido
+- adicionado o metodo Lumine_Configuration::loadModel
+- bug corrigido no selectAs
+
+1.5.2
+- correcao de bug no metodo Lumine_Util::buildOptions
+- bug no tokenizer: quando se colocava uma string na select logo no inicio era disparado um erro
+- bug ao adicionar um formatador para o campo. Ele adicionava o valor na consulta mesmo quando vc nao colocava nada (depois de colocar um format para o campo)
+- correcao ao salvar objetos relacionados
+- criado metodo para destruir um objeto e todos os relacionados
+- aceita um array associativo para setar valores no construtor da classe
+- agora eh criado somente uma instancia de Lumine_Dialect para consultas
+- metodo destroy funciona em cascata, liberando memoria
+- pega o nome da sequencia na engenharia reversa
+- correcao na classe Lumine_Model para delete, update, save e insert (pegar chave primaria)
+
+
+1.5.1
+- correcao do PostgreSQL para poder pegar o valor da chave auto-incrementavel
+- pequenas alteracoes para o PHP 5.3
+- quando validando um campo usando classe > metodo em PHP, passa o objeto, nome do campo e valor do campo como parametros
+- adicionado modelo de arquivo para criacao de models
+- adicionado arquivo de contexto para aplicacoes MVC
+- adicionado modelos de configuracao
+- engenharia reversa cria models para MVC
+- agora eh possivel selecionar o arquivo de configuracao original para engenharia reversa
+- reverse adiciona uma numeracao quando relacionamentos 1-N e N-M tem nomes repetidos
+- correcao do schema name da engenharia reversa
+
+1.5
+- Metodo validate agora sempre retorna um array. Caso nao tenha erros, o retorno eh um array vazio
+- Alteracoes na engenharia reversa
+- Nova tela de engenharia reversa, mais intuitiva
+- retirados os codigos de fechamento de bloco PHP nas classes de entidades geradas pelo lumine reverse
+- colocada a class_path na lista de procura do xml validator
+- Correcao no parseamento de strings Lumine_Parser
+- Possivel criar entidades on the fly (Lumine::factory)
+- Disparo de Eventos organizado, melhorado e padronizado
+- Alterado na engenharia reversa para poder identificar o pacote em explicity type dos DTO's
+- quando adicionar a opcao "formatter" no mapeamento, automaticamente chama $obj->addFormatter
+- setFrom aceita tanto array como objetos
+- alterado o metodo toObject para poder fazer recursivamente nos objetos internos
+- correcao de bug (acesso direto a classe Lumine_Base)
+- correcao no disparo de excecoes quando houver erro de SQL (em update, save, insert, delete)
+
+1.3.7
+- correcao no metodo toArray para quando tiver formatadores
+- adiciondao o metodo Lumine_Base::toObject($format='%s',$classname='stdClass');
+- adiciondao o metodo Lumine_Base::allToObject($format='%s',$classname='stdClass');
+- na engenharia reversa cria as classes DTO's
+- classe adicionada Reverse::DTOTemplate
+
+1.3.6
+- correcao em Lumine_Util::array2xml
+- correcao em Lumine_Util::showResult
+- adicionado metodo Lumine_Base::remove($linkname, $items);
+- adicionado metodo Lumine_Base::toJSON($utf8 = false);
+- adicionado metodo Lumine_Base::allToJSON($utf8 = false);
+- adicionado metodo Lumine_Util::json($utf8 = false);
+
+1.3.5
+- Documentacao atualizada
+- Melhoria de performance
+
+1.3.4
+- Alteracoes para os controles basicos com postgres
+- Alteracoes para que os campos booleanos sejam salvos corretamente com o postgres
+- Alteracoes para que a instancia da configuracao nao fique no objeto basico, melhorando a performance
+- correcao para pegar o nome da tabela ou alias em um join quando o alias nao e informado
+- Correcao nos nomes das classes na engenharia reversa
+- Correcao para que, quando fizer join e estiver utilizando schema, colocar corretamente nas tabelas unidas
+- (beta) Dicionario de plural. Converte consultor -> consultores, autor -> autores, etc, para colecoes, na engenharia reversa.
+- bug corrigido: no momento de salvar uma lista de objetos dependentes com nomes diferentes na tabela de uniao ele pega os nomes das colunas incorretamente.
+- corrigido o bug em relacao aos membros encapsulados como private: eles nao eram retornados no metodo allToArray ou toArray
+
+1.3.3
+- Correcao de quando se tinha relacionamentos many-to-many e os nomes das colunas na tabela de uniao eram diferentes das tabelas de origem, nao estava gravando os dados (bug enviado por fernandouhu at gmail dot com)
+- Correcao na engenharia reversa. Quando se fazia engenharia reversa de uma tabela de ligacao e as chaves primarias da ligacao continham nomes diferentes das tabelas de origem, nao coloca certo nas entidades
+- Correcao no PostgreSQL para recuperacao das foreign keys sem aspas duplas
+
+1.3
+- Adicao de constantes a classe Lumine_Validator
+- Agora no modo REQUIRED_STRING, tambem ja verifica o comprimento dos campos (MINIMO, MAXIMO)
+- Dispara excecoes em metodos de persistencia (Lumine_SQLException)
+- Comentarios em geral
+- Util - Remocao de dados somente que haviam antes
+
+1.2.3
+- Correcao quando se faz um update para nulo
+
+1.2.2
+- Inclusao dos metodos getFieldOption e setFieldOption, o que permite alterar uma opcao do campo em tempo de execucao
+- Criacao opcional de get / set na engenharia reversa
+- Correcao de alguns alertas em strict mode
+- Correcao do insert quando se tem get/set de chave primaria auto-incrementavel
+
+1.2
+- Declaracao de membros das classes
+- Ajuste na opcao lazy para carregamento de dados automatico
+
+1.1
+- Quando um novo objeto e criado, a configuracao dispara o evento onCreateObject
+- correcao na clausula where com valor null
+- adicionados os metodos toXML e allToXML
+
+1.0.9
+- Alteracao correta no setDataset quando se recupera uma informacao do dialeto
+- funcao para autload
+- Alteracao para passar o objeto que esta sendo validado em uma requiredFunction
+- Correcao na opcao "manter nome das colunas em chaves estrangeiras" na engenharia reversa
+- correcao no getLink
+
+1.0.9-beta
+- Opcao de remover nos arquivos gerados pela engenharia reversa
+- reinicia a matriz original_dataholder no metodo reset
+- Ajuste de destrutores
+- ajuste de memoria (mysql e postgre)
+- ajuste na engenharia reversa
+- criacao do metodo "destroy"
+
+1.0.8.4
+- Alteracao formato de campo TIME
+- Correcao quando se faz um count e nao retorna resultados, a apos e uma chamada ao toArray ou allToArray
+- Firebird Beta
+- Correcao de que quando nao ha alteracoes no objeto atual, nao estava atualizando as dependencias
+- Dispara uma excecao quando falha a conexao
+- Camel case nos nomes das classes e nomes dos membros da entidade
+- Alteracao em alguns bugs na conexao do Firebird
+- Alteracao automatica de LIMIT e OFFSET para Firebird
+- Ajustes na engenharia reversa na opcao "manter nomes das colunas", quando eram relacionamentos
+
+
+1.0.8.2
+- Correcao quando se usa mais de um banco de dados ao mesmo tempo (perdia a relacao com o primeiro banco quando se entrava no segundo - MySQL)
+- Correcao na opcao "manter nome das colunas em chaves estrangeiras" na engenharia reversa
+
+1.0.8.1
+- Correcao de insert quando uma coluna tem chave estrangeira e o valor padrao e null (antes era convertido para zero) - (Fernando Santana);
+- Remoca de um codigo de teste (print_r) dentro da funcao _insertSQL (Fernando Santana);

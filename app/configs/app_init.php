@@ -6,8 +6,6 @@
  * @version 1.0
  */
 
-// var_dump($_SERVER); exit;
-
 
 /**
  *  Definition of environment
@@ -36,8 +34,8 @@ if (ENV_APP) {
     /**
     * Production
     */
-    define("APP_PATH", "C:/xampp/htdocs/miniframework_v1/app/");
-    define('APP_URL', 'http://localhost:1080/miniframework_v1/public_html/');
+    define("APP_PATH", "home/path-to-server/");
+    define('APP_URL', 'http://yourdomain.com/');
     define('MODULES_PATH',APP_PATH . 'modules/');
     error_reporting(0);
 }
@@ -57,6 +55,24 @@ if (ENV_APP) {
     include(APP_PATH.'configs/database.php');
     include(APP_PATH.'library/autoloader.php');
     include(APP_PATH.'configs/routes.php');
+    
+    include(APP_PATH.'vendors/lumine/Lumine.php');
+    include(APP_PATH.'vendors/lumine/lumine-conf.php');
+
+
+    Lumine_Log::setLevel( 3 ); // Debug
+    date_default_timezone_set("America/Sao_Paulo");
+
+    $cfg = new Lumine_Configuration($lumineConfig);
+
+    spl_autoload_register(function($class) {
+            Lumine::autoload($class);
+    });
+
+
+
+
+
 
 
     // $auth = library_auth2_auth::singleton();
